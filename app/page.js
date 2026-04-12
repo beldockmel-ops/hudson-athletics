@@ -37,7 +37,10 @@ function Navbar({ onRegister }) {
   return (
     <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(8,8,8,0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "12px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
       <img src="/logo.png" alt="Hudson Athletics" style={{ height: 48, objectFit: "contain" }} />
-      <button onClick={onRegister} style={{ background: `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})`, color: "#fff", border: "none", padding: "10px 24px", borderRadius: 6, fontFamily: "Oswald, sans-serif", fontWeight: 600, fontSize: 14, letterSpacing: 1, textTransform: "uppercase", cursor: "pointer" }}>Register Now</button>
+      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+        <a href="mailto:Connectwith@hudsonathletics.us" style={{ color: BRAND.light, fontFamily: "Oswald, sans-serif", fontSize: 14, fontWeight: 600, letterSpacing: 1, textTransform: "uppercase", textDecoration: "none", cursor: "pointer" }}>Contact Us</a>
+        <button onClick={onRegister} style={{ background: `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})`, color: "#fff", border: "none", padding: "10px 24px", borderRadius: 6, fontFamily: "Oswald, sans-serif", fontWeight: 600, fontSize: 14, letterSpacing: 1, textTransform: "uppercase", cursor: "pointer" }}>Register Now</button>
+      </div>
     </nav>
   );
 }
@@ -263,6 +266,9 @@ function Footer() {
       <img src="/logo.png" alt="Hudson Athletics" style={{ height: 60, marginBottom: 16 }} />
       <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, color: BRAND.muted }}>
         Hudson Athletics &nbsp;|&nbsp; Youth Combines · Coaching · Camps
+      </p>
+      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, marginTop: 8 }}>
+        <a href="mailto:Connectwith@hudsonathletics.us" style={{ color: BRAND.orange, textDecoration: "none", fontWeight: 600 }}>Connectwith@hudsonathletics.us</a>
       </p>
       <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 12, color: "rgba(255,255,255,0.25)", marginTop: 8 }}>
         © 2026 Hudson Athletics LLC. All rights reserved.
