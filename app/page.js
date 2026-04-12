@@ -270,6 +270,11 @@ function Footer() {
       <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, marginTop: 8 }}>
         <a href="mailto:Connectwith@hudsonathletics.us" style={{ color: BRAND.orange, textDecoration: "none", fontWeight: 600 }}>Connectwith@hudsonathletics.us</a>
       </p>
+      <div style={{ display: "flex", justifyContent: "center", gap: 24, marginTop: 16 }}>
+        <a href="https://www.instagram.com/hudsonathleticscombines" target="_blank" rel="noopener noreferrer" style={{ color: BRAND.light, textDecoration: "none", fontFamily: "Oswald, sans-serif", fontSize: 14, letterSpacing: 1, textTransform: "uppercase" }}>Instagram</a>
+        <a href="https://www.linkedin.com/company/114274192/" target="_blank" rel="noopener noreferrer" style={{ color: BRAND.light, textDecoration: "none", fontFamily: "Oswald, sans-serif", fontSize: 14, letterSpacing: 1, textTransform: "uppercase" }}>LinkedIn</a>
+        <a href="https://www.facebook.com/profile.php?id=61572339454448" target="_blank" rel="noopener noreferrer" style={{ color: BRAND.light, textDecoration: "none", fontFamily: "Oswald, sans-serif", fontSize: 14, letterSpacing: 1, textTransform: "uppercase" }}>Facebook</a>
+      </div>
       <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 12, color: "rgba(255,255,255,0.25)", marginTop: 8 }}>
         © 2026 Hudson Athletics LLC. All rights reserved.
       </p>
