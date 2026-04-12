@@ -8,6 +8,30 @@ const SPORTS = [
   { name: "Football", icon: "🏈" },
 ];
 
+// ── ADD NEW EVENTS HERE ──────────────────────────────────
+// Each event needs: id, location, address, dates, dateLabel, sports
+const EVENTS = [
+  {
+    id: "kuntz-may-2026",
+    location: "Kuntz Stadium",
+    city: "Indianapolis, IN",
+    address: "1502 W 16th St, Indianapolis, IN 46202",
+    dates: "May 21–22, 2026",
+    dateLabel: "Thursday & Friday",
+    sports: ["Rugby", "Soccer", "Lacrosse", "Football"],
+  },
+  // To add a new event, copy the block above and change the details:
+  // {
+  //   id: "dallas-jun-2026",
+  //   location: "TBD Venue",
+  //   city: "Dallas, TX",
+  //   address: "123 Main St, Dallas, TX 75201",
+  //   dates: "Jun 14–15, 2026",
+  //   dateLabel: "Saturday & Sunday",
+  //   sports: ["Soccer", "Football"],
+  // },
+];
+
 const BRAND = {
   bg: "#080808",
   card: "#111111",
@@ -149,6 +173,7 @@ function EventDetails() {
 
 function Register() {
   const emptyAthlete = () => ({ firstName: "", lastName: "", age: "", sport: "" });
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const [parent, setParent] = useState({ firstName: "", lastName: "", email: "", phone: "" });
   const [athletes, setAthletes] = useState([emptyAthlete()]);
   const [status, setStatus] = useState("");
@@ -163,19 +188,22 @@ function Register() {
   const ADDITIONAL_PRICE = 39.99;
   const total = athletes.length === 1 ? FIRST_PRICE : FIRST_PRICE + (athletes.length - 1) * ADDITIONAL_PRICE;
 
+  const event = EVENTS.find(e => e.id === selectedEvent);
+  const availableSports = event ? SPORTS.filter(s => event.sports.includes(s.name)) : [];
+
   const parentValid = parent.firstName && parent.lastName && parent.email;
   const athletesValid = athletes.every(a => a.firstName && a.lastName && a.age && a.sport);
-  const valid = parentValid && athletesValid;
+  const valid = selectedEvent && parentValid && athletesValid;
 
   const handleSubmit = async () => {
-    if (!valid) { setStatus("Please fill all required fields for parent and all athletes."); return; }
+    if (!valid) { setStatus("Please fill all required fields."); return; }
     setLoading(true);
     setStatus("");
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ parent, athletes }),
+        body: JSON.stringify({ parent, athletes, event: { id: event.id, location: event.location, dates: event.dates } }),
       });
       const data = await res.json();
       if (data.url) {
@@ -196,66 +224,88 @@ function Register() {
       <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 8, textAlign: "center" }}>Register</h2>
       <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 15, color: BRAND.muted, textAlign: "center", marginBottom: 32 }}>$49.99 per athlete &nbsp;·&nbsp; $10 off each additional athlete</p>
 
-      <p style={sectionLabel}>Parent / Guardian Information</p>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
-        <input placeholder="Parent First Name *" value={parent.firstName} onChange={e => updateParent("firstName", e.target.value)} style={inputStyle} />
-        <input placeholder="Parent Last Name *" value={parent.lastName} onChange={e => updateParent("lastName", e.target.value)} style={inputStyle} />
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 4 }}>
-        <input placeholder="Email *" type="email" value={parent.email} onChange={e => updateParent("email", e.target.value)} style={inputStyle} />
-        <input placeholder="Phone" value={parent.phone} onChange={e => updateParent("phone", e.target.value)} style={inputStyle} />
+      {/* Step 1: Select Event */}
+      <p style={sectionLabel}>Select an Event *</p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 8 }}>
+        {EVENTS.map(ev => (
+          <button key={ev.id} onClick={() => { setSelectedEvent(ev.id); setAthletes([emptyAthlete()]); }}
+            style={{ background: selectedEvent === ev.id ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : BRAND.card, color: BRAND.white, border: selectedEvent === ev.id ? "none" : "1px solid rgba(255,255,255,0.1)", borderRadius: 10, padding: "16px 20px", cursor: "pointer", transition: "all 0.2s", textAlign: "left" }}>
+            <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 18, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>
+              {ev.location} — {ev.city}
+            </div>
+            <div style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, marginTop: 4, opacity: 0.85 }}>
+              {ev.dates} &nbsp;·&nbsp; {ev.dateLabel}
+            </div>
+          </button>
+        ))}
       </div>
 
-      {athletes.map((ath, idx) => (
-        <div key={idx} style={{ background: BRAND.card, border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: 20, marginTop: 20 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-            <p style={{ ...sectionLabel, margin: 0 }}>
-              Athlete {idx + 1} {idx > 0 && <span style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 12, color: BRAND.orange, textTransform: "none", letterSpacing: 0 }}>($10 multi-athlete discount applied)</span>}
-            </p>
-            {athletes.length > 1 && (
-              <button onClick={() => removeAthlete(idx)} style={{ background: "none", border: "none", color: BRAND.muted, cursor: "pointer", fontFamily: "Source Sans 3, sans-serif", fontSize: 13 }}>✕ Remove</button>
-            )}
-          </div>
+      {selectedEvent && (
+        <>
+          {/* Step 2: Parent Info */}
+          <p style={sectionLabel}>Parent / Guardian Information</p>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
-            <input placeholder="Athlete First Name *" value={ath.firstName} onChange={e => updateAthlete(idx, "firstName", e.target.value)} style={inputStyle} />
-            <input placeholder="Athlete Last Name *" value={ath.lastName} onChange={e => updateAthlete(idx, "lastName", e.target.value)} style={inputStyle} />
+            <input placeholder="Parent First Name *" value={parent.firstName} onChange={e => updateParent("firstName", e.target.value)} style={inputStyle} />
+            <input placeholder="Parent Last Name *" value={parent.lastName} onChange={e => updateParent("lastName", e.target.value)} style={inputStyle} />
           </div>
-          <input placeholder="Athlete Age (12–21) *" type="number" min="12" max="21" value={ath.age} onChange={e => updateAthlete(idx, "age", e.target.value)} style={{ ...inputStyle, marginBottom: 14 }} />
-
-          <p style={{ fontFamily: "Oswald, sans-serif", fontSize: 12, color: BRAND.light, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8 }}>Sport Path *</p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-            {SPORTS.map(s => (
-              <button key={s.name} onClick={() => updateAthlete(idx, "sport", s.name)}
-                style={{ background: ath.sport === s.name ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : "rgba(255,255,255,0.04)", color: BRAND.white, border: ath.sport === s.name ? "none" : "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "12px 6px", fontFamily: "Oswald, sans-serif", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "all 0.2s", textTransform: "uppercase", letterSpacing: 0.5 }}>
-                {s.icon} {s.name}
-              </button>
-            ))}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 4 }}>
+            <input placeholder="Email *" type="email" value={parent.email} onChange={e => updateParent("email", e.target.value)} style={inputStyle} />
+            <input placeholder="Phone" value={parent.phone} onChange={e => updateParent("phone", e.target.value)} style={inputStyle} />
           </div>
-          <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 13, color: BRAND.muted, textAlign: "right", marginTop: 10 }}>
-            {idx === 0 ? `$${FIRST_PRICE}` : `$${ADDITIONAL_PRICE}`}
-          </p>
-        </div>
-      ))}
 
-      <button onClick={addAthlete} style={{ width: "100%", marginTop: 16, background: "none", border: "1px dashed rgba(255,255,255,0.2)", borderRadius: 8, padding: "14px", color: BRAND.light, fontFamily: "Oswald, sans-serif", fontSize: 15, fontWeight: 600, cursor: "pointer", textTransform: "uppercase", letterSpacing: 1 }}>
-        + Add Another Athlete ($39.99)
-      </button>
+          {/* Step 3: Athletes */}
+          {athletes.map((ath, idx) => (
+            <div key={idx} style={{ background: BRAND.card, border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: 20, marginTop: 20 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                <p style={{ ...sectionLabel, margin: 0 }}>
+                  Athlete {idx + 1} {idx > 0 && <span style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 12, color: BRAND.orange, textTransform: "none", letterSpacing: 0 }}>($10 multi-athlete discount applied)</span>}
+                </p>
+                {athletes.length > 1 && (
+                  <button onClick={() => removeAthlete(idx)} style={{ background: "none", border: "none", color: BRAND.muted, cursor: "pointer", fontFamily: "Source Sans 3, sans-serif", fontSize: 13 }}>✕ Remove</button>
+                )}
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+                <input placeholder="Athlete First Name *" value={ath.firstName} onChange={e => updateAthlete(idx, "firstName", e.target.value)} style={inputStyle} />
+                <input placeholder="Athlete Last Name *" value={ath.lastName} onChange={e => updateAthlete(idx, "lastName", e.target.value)} style={inputStyle} />
+              </div>
+              <input placeholder="Athlete Age (12–21) *" type="number" min="12" max="21" value={ath.age} onChange={e => updateAthlete(idx, "age", e.target.value)} style={{ ...inputStyle, marginBottom: 14 }} />
 
-      <div style={{ marginTop: 24, padding: "16px 20px", background: "rgba(247,148,29,0.08)", border: "1px solid rgba(247,148,29,0.25)", borderRadius: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 16, color: BRAND.light, textTransform: "uppercase", letterSpacing: 1 }}>
-          {athletes.length} athlete{athletes.length > 1 ? "s" : ""} — Total
-        </span>
-        <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 24, fontWeight: 700, color: BRAND.orange }}>
-          ${total.toFixed(2)}
-        </span>
-      </div>
+              <p style={{ fontFamily: "Oswald, sans-serif", fontSize: 12, color: BRAND.light, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8 }}>Sport Path *</p>
+              <div style={{ display: "grid", gridTemplateColumns: `repeat(${availableSports.length > 2 ? 2 : availableSports.length}, 1fr)`, gap: 8 }}>
+                {availableSports.map(s => (
+                  <button key={s.name} onClick={() => updateAthlete(idx, "sport", s.name)}
+                    style={{ background: ath.sport === s.name ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : "rgba(255,255,255,0.04)", color: BRAND.white, border: ath.sport === s.name ? "none" : "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "12px 6px", fontFamily: "Oswald, sans-serif", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "all 0.2s", textTransform: "uppercase", letterSpacing: 0.5 }}>
+                    {s.icon} {s.name}
+                  </button>
+                ))}
+              </div>
+              <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 13, color: BRAND.muted, textAlign: "right", marginTop: 10 }}>
+                {idx === 0 ? `$${FIRST_PRICE}` : `$${ADDITIONAL_PRICE}`}
+              </p>
+            </div>
+          ))}
 
-      <button onClick={handleSubmit} disabled={loading || !valid}
-        style={{ width: "100%", marginTop: 16, background: valid ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : "#333", color: "#fff", border: "none", padding: "16px", borderRadius: 8, fontFamily: "Oswald, sans-serif", fontWeight: 700, fontSize: 18, letterSpacing: 1.5, textTransform: "uppercase", cursor: valid ? "pointer" : "not-allowed", opacity: loading ? 0.6 : 1 }}>
-        {loading ? "Processing..." : `Register & Pay — $${total.toFixed(2)}`}
-      </button>
+          <button onClick={addAthlete} style={{ width: "100%", marginTop: 16, background: "none", border: "1px dashed rgba(255,255,255,0.2)", borderRadius: 8, padding: "14px", color: BRAND.light, fontFamily: "Oswald, sans-serif", fontSize: 15, fontWeight: 600, cursor: "pointer", textTransform: "uppercase", letterSpacing: 1 }}>
+            + Add Another Athlete ($39.99)
+          </button>
 
-      {status && <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, color: BRAND.orange, marginTop: 16, textAlign: "center", lineHeight: 1.5 }}>{status}</p>}
+          <div style={{ marginTop: 24, padding: "16px 20px", background: "rgba(247,148,29,0.08)", border: "1px solid rgba(247,148,29,0.25)", borderRadius: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 16, color: BRAND.light, textTransform: "uppercase", letterSpacing: 1 }}>
+              {athletes.length} athlete{athletes.length > 1 ? "s" : ""} — Total
+            </span>
+            <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 24, fontWeight: 700, color: BRAND.orange }}>
+              ${total.toFixed(2)}
+            </span>
+          </div>
+
+          <button onClick={handleSubmit} disabled={loading || !valid}
+            style={{ width: "100%", marginTop: 16, background: valid ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : "#333", color: "#fff", border: "none", padding: "16px", borderRadius: 8, fontFamily: "Oswald, sans-serif", fontWeight: 700, fontSize: 18, letterSpacing: 1.5, textTransform: "uppercase", cursor: valid ? "pointer" : "not-allowed", opacity: loading ? 0.6 : 1 }}>
+            {loading ? "Processing..." : `Register & Pay — $${total.toFixed(2)}`}
+          </button>
+
+          {status && <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, color: BRAND.orange, marginTop: 16, textAlign: "center", lineHeight: 1.5 }}>{status}</p>}
+        </>
+      )}
     </section>
   );
 }
