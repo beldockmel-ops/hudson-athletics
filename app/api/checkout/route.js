@@ -8,7 +8,7 @@ const ADDITIONAL_PRICE_CENTS = 3999;
 
 export async function POST(request) {
   try {
-    const { parent, athletes } = await request.json();
+    const { parent, athletes, event } = await request.json();
 
     if (!parent?.firstName || !parent?.lastName || !parent?.email) {
       return NextResponse.json({ error: "Parent information is required." }, { status: 400 });
@@ -16,6 +16,11 @@ export async function POST(request) {
     if (!athletes?.length) {
       return NextResponse.json({ error: "At least one athlete is required." }, { status: 400 });
     }
+    if (!event?.id) {
+      return NextResponse.json({ error: "Please select an event." }, { status: 400 });
+    }
+
+    const eventLabel = `${event.location} · ${event.dates}`;
 
     const lineItems = athletes.map((athlete, idx) => ({
       price_data: {
@@ -23,8 +28,8 @@ export async function POST(request) {
         product_data: {
           name: `${athlete.sport} Combine — ${athlete.firstName} ${athlete.lastName} (Age ${athlete.age})`,
           description: idx === 0
-            ? "Hudson Athletics Inaugural Combine · May 21–22, 2026 · Kuntz Stadium"
-            : "Hudson Athletics Inaugural Combine · Multi-athlete discount applied",
+            ? `Hudson Athletics · ${eventLabel}`
+            : `Hudson Athletics · ${eventLabel} · Multi-athlete discount applied`,
         },
         unit_amount: idx === 0 ? FIRST_PRICE_CENTS : ADDITIONAL_PRICE_CENTS,
       },
@@ -41,6 +46,8 @@ export async function POST(request) {
       success_url: `${origin}?success=true`,
       cancel_url: `${origin}?canceled=true`,
       metadata: {
+        event_id: event.id,
+        event_location: `${event.location} — ${event.dates}`,
         parent_name: `${parent.firstName} ${parent.lastName}`,
         parent_phone: parent.phone || "",
         athlete_count: String(athletes.length),
