@@ -13,6 +13,7 @@ const SPORTS = [
 const EVENTS = [
   {
     id: "kuntz-may-2026",
+    status: "active",
     location: "Kuntz Stadium",
     city: "Indianapolis, IN",
     address: "1502 W 16th St, Indianapolis, IN 46202",
@@ -20,16 +21,33 @@ const EVENTS = [
     dateLabel: "Thursday & Friday",
     sports: ["Rugby", "Soccer", "Lacrosse", "Football"],
   },
-  // To add a new event, copy the block above and change the details:
-  // {
-  //   id: "dallas-jun-2026",
-  //   location: "TBD Venue",
-  //   city: "Dallas, TX",
-  //   address: "123 Main St, Dallas, TX 75201",
-  //   dates: "Jun 14–15, 2026",
-  //   dateLabel: "Saturday & Sunday",
-  //   sports: ["Soccer", "Football"],
-  // },
+  {
+    id: "dfw-coming-soon",
+    status: "coming_soon",
+    location: "Dallas–Fort Worth",
+    city: "DFW, TX",
+    dates: "Summer 2026",
+    dateLabel: "Dates TBA",
+    sports: ["Soccer", "Football", "Lacrosse"],
+  },
+  {
+    id: "chicago-coming-soon",
+    status: "coming_soon",
+    location: "Chicago Suburbs",
+    city: "Chicago, IL",
+    dates: "Summer 2026",
+    dateLabel: "Dates TBA",
+    sports: ["Soccer", "Football", "Lacrosse"],
+  },
+  {
+    id: "atlanta-coming-soon",
+    status: "coming_soon",
+    location: "Atlanta",
+    city: "Atlanta, GA",
+    dates: "Fall 2026",
+    dateLabel: "Dates TBA",
+    sports: ["Soccer", "Football", "Lacrosse"],
+  },
 ];
 
 const BRAND = {
@@ -178,6 +196,7 @@ function Register() {
   const [athletes, setAthletes] = useState([emptyAthlete()]);
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const updateParent = (k, v) => setParent(f => ({ ...f, [k]: v }));
   const updateAthlete = (idx, k, v) => setAthletes(a => a.map((at, i) => i === idx ? { ...at, [k]: v } : at));
@@ -189,16 +208,38 @@ function Register() {
   const total = athletes.length === 1 ? FIRST_PRICE : FIRST_PRICE + (athletes.length - 1) * ADDITIONAL_PRICE;
 
   const event = EVENTS.find(e => e.id === selectedEvent);
+  const isComingSoon = event?.status === "coming_soon";
   const availableSports = event ? SPORTS.filter(s => event.sports.includes(s.name)) : [];
 
   const parentValid = parent.firstName && parent.lastName && parent.email;
   const athletesValid = athletes.every(a => a.firstName && a.lastName && a.age && a.sport);
-  const valid = selectedEvent && parentValid && athletesValid;
+  const valid = isComingSoon ? (parentValid) : (selectedEvent && parentValid && athletesValid);
 
   const handleSubmit = async () => {
     if (!valid) { setStatus("Please fill all required fields."); return; }
     setLoading(true);
     setStatus("");
+
+    if (isComingSoon) {
+      try {
+        const res = await fetch("/api/interest", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ parent, event: { id: event.id, location: event.location, city: event.city, dates: event.dates } }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          setSubmitted(true);
+        } else {
+          setStatus(data.error || "Something went wrong. Please try again.");
+        }
+      } catch (e) {
+        setStatus("Error submitting. Please try again.");
+      }
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -219,6 +260,22 @@ function Register() {
 
   const sectionLabel = { fontFamily: "Oswald, sans-serif", fontSize: 14, color: BRAND.pink, textTransform: "uppercase", letterSpacing: 2, marginBottom: 12, marginTop: 28 };
 
+  if (submitted) {
+    return (
+      <section id="register" style={{ padding: "80px 24px", maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
+        <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 16 }}>You're On the List!</h2>
+        <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 18, color: BRAND.light, marginBottom: 8 }}>
+          We'll notify you as soon as dates are confirmed for <span style={{ color: BRAND.orange, fontWeight: 600 }}>{event?.location}</span>.
+        </p>
+        <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 15, color: BRAND.muted }}>Keep an eye on your inbox — early registrants get first access.</p>
+        <button onClick={() => { setSubmitted(false); setSelectedEvent(null); setParent({ firstName: "", lastName: "", email: "", phone: "" }); }}
+          style={{ marginTop: 32, background: "none", border: `1px solid rgba(255,255,255,0.2)`, borderRadius: 8, padding: "12px 32px", color: BRAND.light, fontFamily: "Oswald, sans-serif", fontSize: 15, cursor: "pointer", textTransform: "uppercase", letterSpacing: 1 }}>
+          Register for Another Event
+        </button>
+      </section>
+    );
+  }
+
   return (
     <section id="register" style={{ padding: "80px 24px", maxWidth: 600, margin: "0 auto" }}>
       <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 8, textAlign: "center" }}>Register</h2>
@@ -228,19 +285,53 @@ function Register() {
       <p style={sectionLabel}>Select an Event *</p>
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 8 }}>
         {EVENTS.map(ev => (
-          <button key={ev.id} onClick={() => { setSelectedEvent(ev.id); setAthletes([emptyAthlete()]); }}
-            style={{ background: selectedEvent === ev.id ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : BRAND.card, color: BRAND.white, border: selectedEvent === ev.id ? "none" : "1px solid rgba(255,255,255,0.1)", borderRadius: 10, padding: "16px 20px", cursor: "pointer", transition: "all 0.2s", textAlign: "left" }}>
-            <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 18, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>
-              {ev.location} — {ev.city}
-            </div>
-            <div style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, marginTop: 4, opacity: 0.85 }}>
-              {ev.dates} &nbsp;·&nbsp; {ev.dateLabel}
+          <button key={ev.id} onClick={() => { setSelectedEvent(ev.id); setAthletes([emptyAthlete()]); setStatus(""); }}
+            style={{ background: selectedEvent === ev.id ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : BRAND.card, color: BRAND.white, border: selectedEvent === ev.id ? "none" : "1px solid rgba(255,255,255,0.1)", borderRadius: 10, padding: "16px 20px", cursor: "pointer", transition: "all 0.2s", textAlign: "left", position: "relative" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div>
+                <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 18, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>
+                  {ev.location} — {ev.city}
+                </div>
+                <div style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, marginTop: 4, opacity: 0.85 }}>
+                  {ev.dates} &nbsp;·&nbsp; {ev.dateLabel}
+                </div>
+              </div>
+              {ev.status === "coming_soon" && (
+                <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 11, color: selectedEvent === ev.id ? "#fff" : BRAND.orange, border: `1px solid ${selectedEvent === ev.id ? "rgba(255,255,255,0.4)" : BRAND.orange}`, borderRadius: 4, padding: "4px 8px", textTransform: "uppercase", letterSpacing: 1, whiteSpace: "nowrap" }}>Coming Soon</span>
+              )}
             </div>
           </button>
         ))}
       </div>
 
-      {selectedEvent && (
+      {selectedEvent && isComingSoon && (
+        <>
+          {/* Interest form for coming soon events */}
+          <div style={{ background: "rgba(247,148,29,0.06)", border: `1px solid rgba(247,148,29,0.2)`, borderRadius: 10, padding: 20, marginTop: 20, marginBottom: 8 }}>
+            <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 15, color: BRAND.light, lineHeight: 1.6, marginBottom: 0 }}>
+              We're finalizing dates and venue for <span style={{ color: BRAND.orange, fontWeight: 600 }}>{event.location}</span>. Drop your info below and you'll be the first to know when registration opens — plus early access before we go public.
+            </p>
+          </div>
+
+          <p style={sectionLabel}>Your Information</p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+            <input placeholder="First Name *" value={parent.firstName} onChange={e => updateParent("firstName", e.target.value)} style={inputStyle} />
+            <input placeholder="Last Name *" value={parent.lastName} onChange={e => updateParent("lastName", e.target.value)} style={inputStyle} />
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
+            <input placeholder="Email *" type="email" value={parent.email} onChange={e => updateParent("email", e.target.value)} style={inputStyle} />
+            <input placeholder="Phone" value={parent.phone} onChange={e => updateParent("phone", e.target.value)} style={inputStyle} />
+          </div>
+
+          <button onClick={handleSubmit} disabled={loading || !valid}
+            style={{ width: "100%", background: valid ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : "#333", color: "#fff", border: "none", padding: "16px", borderRadius: 8, fontFamily: "Oswald, sans-serif", fontWeight: 700, fontSize: 18, letterSpacing: 1.5, textTransform: "uppercase", cursor: valid ? "pointer" : "not-allowed", opacity: loading ? 0.6 : 1 }}>
+            {loading ? "Submitting..." : "Get First Access"}
+          </button>
+          {status && <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, color: BRAND.orange, marginTop: 16, textAlign: "center", lineHeight: 1.5 }}>{status}</p>}
+        </>
+      )}
+
+      {selectedEvent && !isComingSoon && (
         <>
           {/* Step 2: Parent Info */}
           <p style={sectionLabel}>Parent / Guardian Information</p>
