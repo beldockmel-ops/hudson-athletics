@@ -70,7 +70,7 @@ const inputStyle = {
   padding: "14px 16px",
   color: BRAND.white,
   fontFamily: "Source Sans 3, sans-serif",
-  fontSize: 16,
+  fontSize: 17,
   outline: "none",
   boxSizing: "border-box",
 };
@@ -138,16 +138,16 @@ function HowItWorks() {
   return (
     <section style={{ padding: "80px 24px", background: BRAND.card, borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
-        <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 40, textAlign: "center" }}>How It Works</h2>
-        <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>
+        <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 40, color: BRAND.white, textTransform: "uppercase", marginBottom: 48, textAlign: "center" }}>How It Works</h2>
+        <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
           {steps.map(s => (
-            <div key={s.num} style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
-              <div style={{ minWidth: 48, height: 48, borderRadius: "50%", background: `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Oswald, sans-serif", fontSize: 22, fontWeight: 700, color: "#fff", flexShrink: 0 }}>
+            <div key={s.num} style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+              <div style={{ minWidth: 56, height: 56, borderRadius: "50%", background: `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Oswald, sans-serif", fontSize: 26, fontWeight: 700, color: "#fff", flexShrink: 0 }}>
                 {s.num}
               </div>
               <div>
-                <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 20, color: BRAND.white, textTransform: "uppercase", marginBottom: 8 }}>{s.title}</h3>
-                <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 16, color: BRAND.light, lineHeight: 1.7 }}>{s.text}</p>
+                <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 24, color: BRAND.white, textTransform: "uppercase", marginBottom: 8 }}>{s.title}</h3>
+                <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 19, color: BRAND.light, lineHeight: 1.7 }}>{s.text}</p>
               </div>
             </div>
           ))}
@@ -171,22 +171,22 @@ function Sports() {
 
   return (
     <section style={{ padding: "80px 24px", maxWidth: 1000, margin: "0 auto" }}>
-      <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 12, textAlign: "center" }}>Sports We Test</h2>
-      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 17, color: BRAND.light, textAlign: "center", maxWidth: 650, margin: "0 auto 40px", lineHeight: 1.6 }}>
+      <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 40, color: BRAND.white, textTransform: "uppercase", marginBottom: 12, textAlign: "center" }}>Sports We Test</h2>
+      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 20, color: BRAND.light, textAlign: "center", maxWidth: 700, margin: "0 auto 44px", lineHeight: 1.6 }}>
         Each sport has its own testing battery built from the metrics that national governing bodies recognize as most important. When you register, you&rsquo;ll select your athlete&rsquo;s sport path.
       </p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 16 }}>
         {activeSports.map(s => (
-          <div key={s.name} style={{ background: BRAND.card, border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: 24, textAlign: "center" }}>
-            <div style={{ fontSize: 40, marginBottom: 10 }}>{s.icon}</div>
-            <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 20, color: BRAND.white, textTransform: "uppercase", marginBottom: 0 }}>{s.name}</h3>
+          <div key={s.name} style={{ background: BRAND.card, border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: 28, textAlign: "center" }}>
+            <div style={{ fontSize: 48, marginBottom: 12 }}>{s.icon}</div>
+            <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 22, color: BRAND.white, textTransform: "uppercase", marginBottom: 0 }}>{s.name}</h3>
           </div>
         ))}
         {comingSoonSports.map(s => (
-          <div key={s.name} style={{ background: BRAND.card, border: "1px dashed rgba(255,255,255,0.12)", borderRadius: 12, padding: 24, textAlign: "center", opacity: 0.6 }}>
-            <div style={{ fontSize: 40, marginBottom: 10 }}>{s.icon}</div>
-            <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 20, color: BRAND.white, textTransform: "uppercase", marginBottom: 4 }}>{s.name}</h3>
-            <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 10, color: BRAND.orange, textTransform: "uppercase", letterSpacing: 1.5 }}>Coming Soon</span>
+          <div key={s.name} style={{ background: BRAND.card, border: "1px dashed rgba(255,255,255,0.12)", borderRadius: 12, padding: 28, textAlign: "center", opacity: 0.6 }}>
+            <div style={{ fontSize: 48, marginBottom: 12 }}>{s.icon}</div>
+            <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 22, color: BRAND.white, textTransform: "uppercase", marginBottom: 6 }}>{s.name}</h3>
+            <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 11, color: BRAND.orange, textTransform: "uppercase", letterSpacing: 1.5 }}>Coming Soon</span>
           </div>
         ))}
       </div>
@@ -202,12 +202,12 @@ function WhatYouGet() {
   ];
   return (
     <section style={{ padding: "80px 24px", maxWidth: 900, margin: "0 auto" }}>
-      <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 40, textAlign: "center" }}>What You Leave With</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24 }}>
+      <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 40, color: BRAND.white, textTransform: "uppercase", marginBottom: 44, textAlign: "center" }}>What You Leave With</h2>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 28 }}>
         {items.map((it, i) => (
           <div key={i} style={{ borderLeft: `3px solid ${BRAND.pink}`, paddingLeft: 20 }}>
-            <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 18, color: BRAND.white, marginBottom: 6 }}>{it.title}</h3>
-            <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, color: BRAND.light, lineHeight: 1.5 }}>{it.desc}</p>
+            <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 22, color: BRAND.white, marginBottom: 8 }}>{it.title}</h3>
+            <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 17, color: BRAND.light, lineHeight: 1.6 }}>{it.desc}</p>
           </div>
         ))}
       </div>
@@ -285,16 +285,16 @@ function Register() {
     setLoading(false);
   };
 
-  const sectionLabel = { fontFamily: "Oswald, sans-serif", fontSize: 14, color: BRAND.pink, textTransform: "uppercase", letterSpacing: 2, marginBottom: 12, marginTop: 28 };
+  const sectionLabel = { fontFamily: "Oswald, sans-serif", fontSize: 16, color: BRAND.pink, textTransform: "uppercase", letterSpacing: 2, marginBottom: 12, marginTop: 28 };
 
   if (submitted) {
     return (
       <section id="register" style={{ padding: "80px 24px", maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
-        <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 16 }}>You're On the List!</h2>
+        <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 40, color: BRAND.white, textTransform: "uppercase", marginBottom: 16 }}>You're On the List!</h2>
         <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 18, color: BRAND.light, marginBottom: 8 }}>
           We'll notify you as soon as dates are confirmed for <span style={{ color: BRAND.orange, fontWeight: 600 }}>{event?.location}</span>.
         </p>
-        <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 15, color: BRAND.muted }}>Keep an eye on your inbox — early registrants get first access.</p>
+        <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 17, color: BRAND.muted }}>Keep an eye on your inbox — early registrants get first access.</p>
         <button onClick={() => { setSubmitted(false); setSelectedEvent(null); setParent({ firstName: "", lastName: "", email: "", phone: "" }); }}
           style={{ marginTop: 32, background: "none", border: `1px solid rgba(255,255,255,0.2)`, borderRadius: 8, padding: "12px 32px", color: BRAND.light, fontFamily: "Oswald, sans-serif", fontSize: 15, cursor: "pointer", textTransform: "uppercase", letterSpacing: 1 }}>
           Register for Another Event
@@ -305,8 +305,8 @@ function Register() {
 
   return (
     <section id="register" style={{ padding: "80px 24px", maxWidth: 600, margin: "0 auto" }}>
-      <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 8, textAlign: "center" }}>Register</h2>
-      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 15, color: BRAND.muted, textAlign: "center", marginBottom: 32 }}>$49.99 per athlete &nbsp;·&nbsp; $10 off each additional athlete</p>
+      <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 40, color: BRAND.white, textTransform: "uppercase", marginBottom: 8, textAlign: "center" }}>Register</h2>
+      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 18, color: BRAND.muted, textAlign: "center", marginBottom: 32 }}>$49.99 per athlete &nbsp;·&nbsp; $10 off each additional athlete</p>
 
       {/* Step 1: Select Event */}
       <p style={sectionLabel}>Select an Event *</p>
@@ -316,15 +316,15 @@ function Register() {
             style={{ background: selectedEvent === ev.id ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : BRAND.card, color: BRAND.white, border: selectedEvent === ev.id ? "none" : "1px solid rgba(255,255,255,0.1)", borderRadius: 10, padding: "16px 20px", cursor: "pointer", transition: "all 0.2s", textAlign: "left", position: "relative" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
-                <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 18, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>
+                <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 20, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>
                   {ev.location} — {ev.city}
                 </div>
-                <div style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, marginTop: 4, opacity: 0.85 }}>
+                <div style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 16, marginTop: 4, opacity: 0.85 }}>
                   {ev.dates} &nbsp;·&nbsp; {ev.dateLabel}
                 </div>
               </div>
               {ev.status === "coming_soon" && (
-                <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 11, color: selectedEvent === ev.id ? "#fff" : BRAND.orange, border: `1px solid ${selectedEvent === ev.id ? "rgba(255,255,255,0.4)" : BRAND.orange}`, borderRadius: 4, padding: "4px 8px", textTransform: "uppercase", letterSpacing: 1, whiteSpace: "nowrap" }}>Coming Soon</span>
+                <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 12, color: selectedEvent === ev.id ? "#fff" : BRAND.orange, border: `1px solid ${selectedEvent === ev.id ? "rgba(255,255,255,0.4)" : BRAND.orange}`, borderRadius: 4, padding: "4px 8px", textTransform: "uppercase", letterSpacing: 1, whiteSpace: "nowrap" }}>Coming Soon</span>
               )}
             </div>
           </button>
@@ -335,7 +335,7 @@ function Register() {
         <>
           {/* Interest form for coming soon events */}
           <div style={{ background: "rgba(247,148,29,0.06)", border: `1px solid rgba(247,148,29,0.2)`, borderRadius: 10, padding: 20, marginTop: 20, marginBottom: 8 }}>
-            <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 15, color: BRAND.light, lineHeight: 1.6, marginBottom: 0 }}>
+            <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 18, color: BRAND.light, lineHeight: 1.6, marginBottom: 0 }}>
               We're finalizing dates and venue for <span style={{ color: BRAND.orange, fontWeight: 600 }}>{event.location}</span>. Drop your info below and you'll be the first to know when registration opens — plus early access before we go public.
             </p>
           </div>
@@ -354,7 +354,7 @@ function Register() {
             style={{ width: "100%", background: valid ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : "#333", color: "#fff", border: "none", padding: "16px", borderRadius: 8, fontFamily: "Oswald, sans-serif", fontWeight: 700, fontSize: 18, letterSpacing: 1.5, textTransform: "uppercase", cursor: valid ? "pointer" : "not-allowed", opacity: loading ? 0.6 : 1 }}>
             {loading ? "Submitting..." : "Get First Access"}
           </button>
-          {status && <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, color: BRAND.orange, marginTop: 16, textAlign: "center", lineHeight: 1.5 }}>{status}</p>}
+          {status && <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 16, color: BRAND.orange, marginTop: 16, textAlign: "center", lineHeight: 1.5 }}>{status}</p>}
         </>
       )}
 
@@ -376,7 +376,7 @@ function Register() {
             <div key={idx} style={{ background: BRAND.card, border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: 20, marginTop: 20 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
                 <p style={{ ...sectionLabel, margin: 0 }}>
-                  Athlete {idx + 1} {idx > 0 && <span style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 12, color: BRAND.orange, textTransform: "none", letterSpacing: 0 }}>($10 multi-athlete discount applied)</span>}
+                  Athlete {idx + 1} {idx > 0 && <span style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, color: BRAND.orange, textTransform: "none", letterSpacing: 0 }}>($10 multi-athlete discount applied)</span>}
                 </p>
                 {athletes.length > 1 && (
                   <button onClick={() => removeAthlete(idx)} style={{ background: "none", border: "none", color: BRAND.muted, cursor: "pointer", fontFamily: "Source Sans 3, sans-serif", fontSize: 13 }}>✕ Remove</button>
@@ -388,27 +388,27 @@ function Register() {
               </div>
               <input placeholder="Athlete Age (12–21) *" type="number" min="12" max="21" value={ath.age} onChange={e => updateAthlete(idx, "age", e.target.value)} style={{ ...inputStyle, marginBottom: 14 }} />
 
-              <p style={{ fontFamily: "Oswald, sans-serif", fontSize: 12, color: BRAND.light, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8 }}>Sport Path *</p>
+              <p style={{ fontFamily: "Oswald, sans-serif", fontSize: 14, color: BRAND.light, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8 }}>Sport Path *</p>
               <div style={{ display: "grid", gridTemplateColumns: `repeat(${availableSports.length > 2 ? 2 : availableSports.length}, 1fr)`, gap: 8 }}>
                 {availableSports.map(s => (
                   <button key={s.name} onClick={() => updateAthlete(idx, "sport", s.name)}
-                    style={{ background: ath.sport === s.name ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : "rgba(255,255,255,0.04)", color: BRAND.white, border: ath.sport === s.name ? "none" : "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "12px 6px", fontFamily: "Oswald, sans-serif", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "all 0.2s", textTransform: "uppercase", letterSpacing: 0.5 }}>
+                    style={{ background: ath.sport === s.name ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : "rgba(255,255,255,0.04)", color: BRAND.white, border: ath.sport === s.name ? "none" : "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "12px 6px", fontFamily: "Oswald, sans-serif", fontSize: 16, fontWeight: 600, cursor: "pointer", transition: "all 0.2s", textTransform: "uppercase", letterSpacing: 0.5 }}>
                     {s.icon} {s.name}
                   </button>
                 ))}
               </div>
-              <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 13, color: BRAND.muted, textAlign: "right", marginTop: 10 }}>
+              <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 15, color: BRAND.muted, textAlign: "right", marginTop: 10 }}>
                 {idx === 0 ? `$${FIRST_PRICE}` : `$${ADDITIONAL_PRICE}`}
               </p>
             </div>
           ))}
 
-          <button onClick={addAthlete} style={{ width: "100%", marginTop: 16, background: "none", border: "1px dashed rgba(255,255,255,0.2)", borderRadius: 8, padding: "14px", color: BRAND.light, fontFamily: "Oswald, sans-serif", fontSize: 15, fontWeight: 600, cursor: "pointer", textTransform: "uppercase", letterSpacing: 1 }}>
+          <button onClick={addAthlete} style={{ width: "100%", marginTop: 16, background: "none", border: "1px dashed rgba(255,255,255,0.2)", borderRadius: 8, padding: "14px", color: BRAND.light, fontFamily: "Oswald, sans-serif", fontSize: 17, fontWeight: 600, cursor: "pointer", textTransform: "uppercase", letterSpacing: 1 }}>
             + Add Another Athlete ($39.99)
           </button>
 
           <div style={{ marginTop: 24, padding: "16px 20px", background: "rgba(247,148,29,0.08)", border: "1px solid rgba(247,148,29,0.25)", borderRadius: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 16, color: BRAND.light, textTransform: "uppercase", letterSpacing: 1 }}>
+            <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 18, color: BRAND.light, textTransform: "uppercase", letterSpacing: 1 }}>
               {athletes.length} athlete{athletes.length > 1 ? "s" : ""} — Total
             </span>
             <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 24, fontWeight: 700, color: BRAND.orange }}>
@@ -421,7 +421,7 @@ function Register() {
             {loading ? "Processing..." : `Register & Pay — $${total.toFixed(2)}`}
           </button>
 
-          {status && <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, color: BRAND.orange, marginTop: 16, textAlign: "center", lineHeight: 1.5 }}>{status}</p>}
+          {status && <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 16, color: BRAND.orange, marginTop: 16, textAlign: "center", lineHeight: 1.5 }}>{status}</p>}
         </>
       )}
     </section>
@@ -432,16 +432,16 @@ function Footer() {
   return (
     <footer style={{ padding: "40px 24px", borderTop: "1px solid rgba(255,255,255,0.06)", textAlign: "center" }}>
       <img src="/logo.png" alt="Hudson Athletics" style={{ height: 60, marginBottom: 16 }} />
-      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, color: BRAND.muted }}>
+      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 15, color: BRAND.muted }}>
         Hudson Athletics &nbsp;|&nbsp; Youth Combines · Coaching · Camps
       </p>
-      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 14, marginTop: 8 }}>
+      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 15, marginTop: 8 }}>
         <a href="mailto:Connectwith@hudsonathletics.us" style={{ color: BRAND.orange, textDecoration: "none", fontWeight: 600 }}>Connectwith@hudsonathletics.us</a>
       </p>
       <div style={{ display: "flex", justifyContent: "center", gap: 24, marginTop: 16 }}>
-        <a href="https://www.instagram.com/hudsonathleticscombines" target="_blank" rel="noopener noreferrer" style={{ color: BRAND.light, textDecoration: "none", fontFamily: "Oswald, sans-serif", fontSize: 14, letterSpacing: 1, textTransform: "uppercase" }}>Instagram</a>
-        <a href="https://www.linkedin.com/company/114274192/" target="_blank" rel="noopener noreferrer" style={{ color: BRAND.light, textDecoration: "none", fontFamily: "Oswald, sans-serif", fontSize: 14, letterSpacing: 1, textTransform: "uppercase" }}>LinkedIn</a>
-        <a href="https://www.facebook.com/profile.php?id=61572339454448" target="_blank" rel="noopener noreferrer" style={{ color: BRAND.light, textDecoration: "none", fontFamily: "Oswald, sans-serif", fontSize: 14, letterSpacing: 1, textTransform: "uppercase" }}>Facebook</a>
+        <a href="https://www.instagram.com/hudsonathleticscombines" target="_blank" rel="noopener noreferrer" style={{ color: BRAND.light, textDecoration: "none", fontFamily: "Oswald, sans-serif", fontSize: 15, letterSpacing: 1, textTransform: "uppercase" }}>Instagram</a>
+        <a href="https://www.linkedin.com/company/114274192/" target="_blank" rel="noopener noreferrer" style={{ color: BRAND.light, textDecoration: "none", fontFamily: "Oswald, sans-serif", fontSize: 15, letterSpacing: 1, textTransform: "uppercase" }}>LinkedIn</a>
+        <a href="https://www.facebook.com/profile.php?id=61572339454448" target="_blank" rel="noopener noreferrer" style={{ color: BRAND.light, textDecoration: "none", fontFamily: "Oswald, sans-serif", fontSize: 15, letterSpacing: 1, textTransform: "uppercase" }}>Facebook</a>
       </div>
       <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 12, color: "rgba(255,255,255,0.25)", marginTop: 8 }}>
         © 2026 Hudson Athletics LLC. All rights reserved.
