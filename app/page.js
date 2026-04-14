@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const SPORTS = [
   { name: "Rugby", icon: "🏉" },
@@ -224,6 +224,16 @@ function Register() {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const formRef = useRef(null);
+
+  const selectEvent = (id) => {
+    setSelectedEvent(id);
+    setAthletes([emptyAthlete()]);
+    setStatus("");
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+  };
 
   const updateParent = (k, v) => setParent(f => ({ ...f, [k]: v }));
   const updateAthlete = (idx, k, v) => setAthletes(a => a.map((at, i) => i === idx ? { ...at, [k]: v } : at));
@@ -312,7 +322,7 @@ function Register() {
       <p style={sectionLabel}>Select an Event *</p>
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 8 }}>
         {EVENTS.map(ev => (
-          <button key={ev.id} onClick={() => { setSelectedEvent(ev.id); setAthletes([emptyAthlete()]); setStatus(""); }}
+          <button key={ev.id} onClick={() => selectEvent(ev.id)}
             style={{ background: selectedEvent === ev.id ? `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})` : BRAND.card, color: BRAND.white, border: selectedEvent === ev.id ? "none" : "1px solid rgba(255,255,255,0.1)", borderRadius: 10, padding: "16px 20px", cursor: "pointer", transition: "all 0.2s", textAlign: "left", position: "relative" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
@@ -332,7 +342,7 @@ function Register() {
       </div>
 
       {selectedEvent && isComingSoon && (
-        <>
+        <div ref={formRef}>
           {/* Interest form for coming soon events */}
           <div style={{ background: "rgba(247,148,29,0.06)", border: `1px solid rgba(247,148,29,0.2)`, borderRadius: 10, padding: 20, marginTop: 20, marginBottom: 8 }}>
             <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 18, color: BRAND.light, lineHeight: 1.6, marginBottom: 0 }}>
@@ -355,11 +365,11 @@ function Register() {
             {loading ? "Submitting..." : "Get First Access"}
           </button>
           {status && <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 16, color: BRAND.orange, marginTop: 16, textAlign: "center", lineHeight: 1.5 }}>{status}</p>}
-        </>
+        </div>
       )}
 
       {selectedEvent && !isComingSoon && (
-        <>
+        <div ref={formRef}>
           {/* Step 2: Parent Info */}
           <p style={sectionLabel}>Parent / Guardian Information</p>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
@@ -422,7 +432,7 @@ function Register() {
           </button>
 
           {status && <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 16, color: BRAND.orange, marginTop: 16, textAlign: "center", lineHeight: 1.5 }}>{status}</p>}
-        </>
+        </div>
       )}
     </section>
   );
