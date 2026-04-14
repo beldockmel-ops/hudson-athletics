@@ -90,38 +90,31 @@ function Navbar({ onRegister }) {
 function Hero({ onRegister }) {
   return (
     <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "120px 24px 80px", background: "radial-gradient(ellipse at 50% 30%, rgba(139,92,246,0.15) 0%, rgba(8,8,8,1) 70%)" }}>
-      <img src="/logo.png" alt="Hudson Athletics" style={{ width: 220, marginBottom: 32 }} />
       <h1 style={{ fontFamily: "Oswald, sans-serif", fontSize: "clamp(36px, 7vw, 72px)", fontWeight: 700, color: BRAND.white, lineHeight: 1.1, marginBottom: 16, textTransform: "uppercase" }}>
         Prove Your Game.<br />
         <span style={{ background: `linear-gradient(90deg, ${BRAND.orange}, ${BRAND.pink}, ${BRAND.purple})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Own Your Numbers.</span>
       </h1>
-      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 20, color: BRAND.light, maxWidth: 600, marginBottom: 8 }}>
+      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 20, color: BRAND.light, maxWidth: 600, marginBottom: 40 }}>
         Standardized athletic testing referenced to governing body standards.
       </p>
-      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 18, color: BRAND.muted, marginBottom: 32 }}>
-        May 21–22, 2026 &nbsp;|&nbsp; Kuntz Stadium, Indianapolis
-      </p>
+      <img src="/logo.png" alt="Hudson Athletics" style={{ width: 180, marginBottom: 32 }} />
+      <div style={{ maxWidth: 700, marginBottom: 32 }}>
+        <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 18, color: BRAND.light, lineHeight: 1.7, marginBottom: 16 }}>
+          Professional and college sports have scouting infrastructure that serves the top tier. The elite 10% already have a path. Scouts come to them.
+        </p>
+        <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 18, color: BRAND.light, lineHeight: 1.7, marginBottom: 16 }}>
+          Everyone else? Told to &ldquo;keep working&rdquo; with no clear way to demonstrate improvement, no standardized metrics, and no legitimate way to get in front of decision-makers.
+        </p>
+        <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 20, fontWeight: 600, color: BRAND.orange, lineHeight: 1.7 }}>
+          That&rsquo;s our market. That&rsquo;s why Hudson Athletics exists.
+        </p>
+      </div>
       <button onClick={onRegister} style={{ background: `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})`, color: "#fff", border: "none", padding: "16px 48px", borderRadius: 8, fontFamily: "Oswald, sans-serif", fontWeight: 700, fontSize: 18, letterSpacing: 1.5, textTransform: "uppercase", cursor: "pointer" }}>Register — $49.99</button>
     </section>
   );
 }
 
-function About() {
-  return (
-    <section style={{ padding: "80px 24px", maxWidth: 800, margin: "0 auto" }}>
-      <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 24, textAlign: "center" }}>The Gap We Fill</h2>
-      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 18, color: BRAND.light, lineHeight: 1.7, marginBottom: 16 }}>
-        Professional and college sports have scouting infrastructure that serves the top tier. The elite 10% already have a path. Scouts come to them.
-      </p>
-      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 18, color: BRAND.light, lineHeight: 1.7, marginBottom: 16 }}>
-        Everyone else? Told to &ldquo;keep working&rdquo; with no clear way to demonstrate improvement, no standardized metrics, and no legitimate way to get in front of decision-makers.
-      </p>
-      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 20, fontWeight: 600, color: BRAND.orange, lineHeight: 1.7 }}>
-        That&rsquo;s our market. That&rsquo;s why Hudson Athletics exists.
-      </p>
-    </section>
-  );
-}
+
 
 function Sports({ onRegister }) {
   return (
@@ -163,31 +156,6 @@ function WhatYouGet() {
   );
 }
 
-function EventDetails() {
-  return (
-    <section style={{ padding: "60px 24px", background: BRAND.card, borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-      <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
-        <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 32 }}>Event Details</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 24 }}>
-          {[
-            { label: "Dates", value: "May 21–22, 2026" },
-            { label: "Days", value: "Thursday & Friday" },
-            { label: "Location", value: "Kuntz Stadium" },
-            { label: "Address", value: "1502 W 16th St, Indianapolis, IN 46202" },
-            { label: "Ages", value: "12–21" },
-            { label: "Price", value: "$49.99" },
-          ].map((d, i) => (
-            <div key={i}>
-              <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 13, color: BRAND.pink, textTransform: "uppercase", letterSpacing: 2, marginBottom: 4 }}>{d.label}</div>
-              <div style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 17, color: BRAND.white, fontWeight: 600 }}>{d.value}</div>
-            </div>
-          ))}
-        </div>
-        <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 15, color: BRAND.orange, marginTop: 24, fontWeight: 600 }}>Limited to 100 athletes — register early to secure your spot.</p>
-      </div>
-    </section>
-  );
-}
 
 function Register() {
   const emptyAthlete = () => ({ firstName: "", lastName: "", age: "", sport: "" });
@@ -443,10 +411,8 @@ export default function Home() {
       `}</style>
       <Navbar onRegister={scrollToRegister} />
       <Hero onRegister={scrollToRegister} />
-      <About />
       <Sports onRegister={scrollToRegister} />
       <WhatYouGet />
-      <EventDetails />
       <Register />
       <Footer />
     </>
