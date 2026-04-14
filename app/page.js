@@ -157,16 +157,42 @@ function HowItWorks() {
   );
 }
 
+function SportCard({ name, icon, tests, comingSoon }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      onClick={() => !comingSoon && setHovered(h => !h)}
+      onMouseEnter={() => !comingSoon && setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{ background: BRAND.card, border: comingSoon ? "1px dashed rgba(255,255,255,0.12)" : "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: 28, textAlign: "center", opacity: comingSoon ? 0.6 : 1, position: "relative", cursor: comingSoon ? "default" : "pointer", transition: "border-color 0.2s", borderColor: hovered && !comingSoon ? BRAND.pink : undefined, minHeight: 130 }}>
+      {!hovered ? (
+        <>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>{icon}</div>
+          <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 22, color: BRAND.white, textTransform: "uppercase", marginBottom: comingSoon ? 6 : 0 }}>{name}</h3>
+          {comingSoon && <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 11, color: BRAND.orange, textTransform: "uppercase", letterSpacing: 1.5 }}>Coming Soon</span>}
+          {!comingSoon && <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 13, color: BRAND.muted, marginTop: 6 }}>Tap for sample tests</p>}
+        </>
+      ) : (
+        <div style={{ textAlign: "left" }}>
+          <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 18, color: BRAND.orange, textTransform: "uppercase", marginBottom: 10 }}>{icon} {name}</h3>
+          <p style={{ fontFamily: "Oswald, sans-serif", fontSize: 12, color: BRAND.muted, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8 }}>Sample Tests</p>
+          {tests.map((t, i) => (
+            <p key={i} style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 15, color: BRAND.light, lineHeight: 1.8 }}>→ {t}</p>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Sports() {
-  const activeSports = [
-    { name: "Rugby", icon: "🏉" },
-    { name: "Soccer", icon: "⚽" },
-    { name: "Lacrosse", icon: "🥍" },
-    { name: "Football", icon: "🏈" },
-  ];
-  const comingSoonSports = [
-    { name: "Volleyball", icon: "🏐" },
-    { name: "Basketball", icon: "🏀" },
+  const sports = [
+    { name: "Soccer", icon: "⚽", tests: ["10m & 30m Sprint", "Vertical Jump", "5-10-5 Agility Shuttle", "505 Change of Direction", "Yo-Yo Endurance Test"] },
+    { name: "Football", icon: "🏈", tests: ["40-Yard Dash", "Vertical Jump", "Broad Jump", "5-10-5 Pro Agility", "3-Cone Drill"] },
+    { name: "Rugby", icon: "🏉", tests: ["10m & 30m Sprint", "Vertical Jump", "Broad Jump", "5-10-5 Agility Shuttle", "Yo-Yo Endurance Test"] },
+    { name: "Lacrosse", icon: "🥍", tests: ["40-Yard Dash", "Vertical Jump", "5-10-5 Agility Shuttle", "Broad Jump", "300-Yard Shuttle"] },
+    { name: "Volleyball", icon: "🏐", comingSoon: true, tests: ["Standing Vertical Jump", "Approach Jump", "Broad Jump", "5-10-5 Agility Shuttle", "Wingspan & Standing Reach"] },
+    { name: "Basketball", icon: "🏀", comingSoon: true, tests: ["Standing & Max Vertical", "Lane Agility Drill", "3/4 Court Sprint", "5-10-5 Pro Agility", "Wingspan & Standing Reach"] },
   ];
 
   return (
@@ -175,19 +201,9 @@ function Sports() {
       <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 20, color: BRAND.light, textAlign: "center", maxWidth: 700, margin: "0 auto 44px", lineHeight: 1.6 }}>
         Each sport has its own testing battery built from the metrics that national governing bodies recognize as most important. When you register, you&rsquo;ll select your athlete&rsquo;s sport path.
       </p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 16 }}>
-        {activeSports.map(s => (
-          <div key={s.name} style={{ background: BRAND.card, border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: 28, textAlign: "center" }}>
-            <div style={{ fontSize: 48, marginBottom: 12 }}>{s.icon}</div>
-            <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 22, color: BRAND.white, textTransform: "uppercase", marginBottom: 0 }}>{s.name}</h3>
-          </div>
-        ))}
-        {comingSoonSports.map(s => (
-          <div key={s.name} style={{ background: BRAND.card, border: "1px dashed rgba(255,255,255,0.12)", borderRadius: 12, padding: 28, textAlign: "center", opacity: 0.6 }}>
-            <div style={{ fontSize: 48, marginBottom: 12 }}>{s.icon}</div>
-            <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 22, color: BRAND.white, textTransform: "uppercase", marginBottom: 6 }}>{s.name}</h3>
-            <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 11, color: BRAND.orange, textTransform: "uppercase", letterSpacing: 1.5 }}>Coming Soon</span>
-          </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16 }}>
+        {sports.map(s => (
+          <SportCard key={s.name} name={s.name} icon={s.icon} tests={s.tests} comingSoon={s.comingSoon} />
         ))}
       </div>
     </section>
