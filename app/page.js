@@ -116,18 +116,77 @@ function Hero({ onRegister }) {
 
 
 
-function Sports({ onRegister }) {
+function HowItWorks() {
+  const steps = [
+    {
+      num: "1",
+      title: "Why Athletic Testing?",
+      text: "Every sport has a set of physical benchmarks that matter \u2014 speed, agility, power, endurance. National governing bodies publish which tests are most relevant to each sport. These are the same metrics that college programs and scouts use to evaluate potential. The problem is, most youth athletes never get access to standardized testing. They train hard but have no verified data to show for it. That\u2019s what we change.",
+    },
+    {
+      num: "2",
+      title: "Pick Your Sport. Show Up. Get Tested.",
+      text: "When you register, you choose a sport-specific testing path. On event day, your athlete rotates through a series of testing stations run by trained staff \u2014 each one measuring a specific physical attribute that matters for their sport. No prior experience needed. No special gear required. Just show up ready to compete against the numbers.",
+    },
+    {
+      num: "3",
+      title: "Walk Away With Proof.",
+      text: "Same day, your athlete receives a verified Hudson Athletics Performance Report \u2014 real scores, from real tests, conducted in person. Plus a digital athlete profile they can share with any coach, club, or program. It\u2019s not a trophy. It\u2019s evidence.",
+    },
+  ];
+
+  return (
+    <section style={{ padding: "80px 24px", background: BRAND.card, borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+        <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 40, textAlign: "center" }}>How It Works</h2>
+        <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>
+          {steps.map(s => (
+            <div key={s.num} style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+              <div style={{ minWidth: 48, height: 48, borderRadius: "50%", background: `linear-gradient(135deg, ${BRAND.orange}, ${BRAND.pink})`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Oswald, sans-serif", fontSize: 22, fontWeight: 700, color: "#fff", flexShrink: 0 }}>
+                {s.num}
+              </div>
+              <div>
+                <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 20, color: BRAND.white, textTransform: "uppercase", marginBottom: 8 }}>{s.title}</h3>
+                <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 16, color: BRAND.light, lineHeight: 1.7 }}>{s.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Sports() {
+  const activeSports = [
+    { name: "Rugby", icon: "🏉" },
+    { name: "Soccer", icon: "⚽" },
+    { name: "Lacrosse", icon: "🥍" },
+    { name: "Football", icon: "🏈" },
+  ];
+  const comingSoonSports = [
+    { name: "Volleyball", icon: "🏐" },
+    { name: "Basketball", icon: "🏀" },
+  ];
+
   return (
     <section style={{ padding: "80px 24px", maxWidth: 1000, margin: "0 auto" }}>
-      <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 12, textAlign: "center" }}>Choose Your Path</h2>
-      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 16, color: BRAND.muted, textAlign: "center", marginBottom: 40 }}>Select your sport-specific testing battery at registration.</p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 20 }}>
-        {SPORTS.map(s => (
-          <div key={s.name} style={{ background: BRAND.card, border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: 28, textAlign: "center", transition: "border-color 0.2s", cursor: "default" }}
-            onMouseEnter={e => e.currentTarget.style.borderColor = BRAND.pink}
-            onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"}>
-            <div style={{ fontSize: 44, marginBottom: 12 }}>{s.icon}</div>
-            <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 22, color: BRAND.white, textTransform: "uppercase", marginBottom: 0 }}>{s.name}</h3>
+      <h2 style={{ fontFamily: "Oswald, sans-serif", fontSize: 36, color: BRAND.white, textTransform: "uppercase", marginBottom: 12, textAlign: "center" }}>Sports We Test</h2>
+      <p style={{ fontFamily: "Source Sans 3, sans-serif", fontSize: 17, color: BRAND.light, textAlign: "center", maxWidth: 650, margin: "0 auto 40px", lineHeight: 1.6 }}>
+        Each sport has its own testing battery built from the metrics that national governing bodies recognize as most important. When you register, you&rsquo;ll select your athlete&rsquo;s sport path.
+      </p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16 }}>
+        {activeSports.map(s => (
+          <div key={s.name} style={{ background: BRAND.card, border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: 24, textAlign: "center" }}>
+            <div style={{ fontSize: 40, marginBottom: 10 }}>{s.icon}</div>
+            <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 20, color: BRAND.white, textTransform: "uppercase", marginBottom: 0 }}>{s.name}</h3>
+          </div>
+        ))}
+        {comingSoonSports.map(s => (
+          <div key={s.name} style={{ background: BRAND.card, border: "1px dashed rgba(255,255,255,0.12)", borderRadius: 12, padding: 24, textAlign: "center", opacity: 0.6 }}>
+            <div style={{ fontSize: 40, marginBottom: 10 }}>{s.icon}</div>
+            <h3 style={{ fontFamily: "Oswald, sans-serif", fontSize: 20, color: BRAND.white, textTransform: "uppercase", marginBottom: 4 }}>{s.name}</h3>
+            <span style={{ fontFamily: "Oswald, sans-serif", fontSize: 10, color: BRAND.orange, textTransform: "uppercase", letterSpacing: 1.5 }}>Coming Soon</span>
           </div>
         ))}
       </div>
@@ -411,8 +470,9 @@ export default function Home() {
       `}</style>
       <Navbar onRegister={scrollToRegister} />
       <Hero onRegister={scrollToRegister} />
-      <Sports onRegister={scrollToRegister} />
+      <HowItWorks />
       <WhatYouGet />
+      <Sports />
       <Register />
       <Footer />
     </>
